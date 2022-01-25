@@ -6,7 +6,7 @@ import Test from "./Practise/Test";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Test />
+    <Form />
   </React.StrictMode>,
   document.getElementById("root")
 );

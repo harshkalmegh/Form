@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { render } from "react-dom";
 import FormShow from "./FormShow";
 
 /**
@@ -26,6 +27,8 @@ function Form() {
     password: "",
   });
 
+  const [showComponent, setShowComponent] = useState<any>(false);
+
   const [state, setState] = useState(form);
 
   const handleUpdate = (e: any) => {
@@ -41,6 +44,21 @@ function Form() {
 
   const handleOnclick = () => {
     setState(form);
+    setShowComponent(true);
+  };
+
+  const handleClear = () => {
+    setForm({
+      ...form,
+      name: "",
+      country: "",
+      state: "",
+      city: "",
+      email: "",
+      giturl: "",
+      photo: "",
+      password: "",
+    });
   };
 
   return (
@@ -143,7 +161,8 @@ function Form() {
         />
       </div>
       <button onClick={handleOnclick}>Submit</button>
-      <FormShow input={state} />
+      <button onClick={handleClear}>Clear</button>
+      {showComponent ? <FormShow input={state} /> : null}
     </div>
   );
 }

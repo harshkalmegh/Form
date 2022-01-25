@@ -1,5 +1,7 @@
+import { useEffect } from "react";
+
 function FormShow(props: any) {
-  // if (!props.input.name) {
+  // if (!props.input.photo) {
   //   return null;
   // }
 
@@ -13,7 +15,6 @@ function FormShow(props: any) {
       <p>GitHub Url : {props.input.giturl}</p>
       <p>Photo : </p>
       <img src={props.input.photo} alt="photo" style={{ width: "200px" }} />
-      <p>Password : {props.input.password}</p>
     </div>
   );
 }
