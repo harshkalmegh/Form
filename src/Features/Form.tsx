@@ -1,4 +1,5 @@
 import { useState } from "react";
+import FormShow from "./FormShow";
 
 /**
  * Algorithm
@@ -7,7 +8,9 @@ import { useState } from "react";
  * 3. using useState maintain state for fields
  * 4. using onchange set the state
  * 5. log the state on button click
- * 6. End
+ * 6. onclicking submit button data will pass through props
+ * 7. on Form Show data will show as fields name and input
+ * 8. End
  *
  */
 
@@ -23,24 +26,21 @@ function Form() {
     password: "",
   });
 
+  const [state, setState] = useState(form);
+
   const handleUpdate = (e: any) => {
-    const { name, value } = e.target;
+    const { name, value, files } = e.target;
+    console.log(files);
     setForm({ ...form, [name]: value });
   };
 
+  const handleImg = (e: any) => {
+    const { name, files } = e.target;
+    setForm({ ...form, [name]: URL.createObjectURL(files[0]) });
+  };
+
   const handleOnclick = () => {
-    console.log(form);
-    setForm({
-      ...form,
-      name: "",
-      country: "",
-      state: "",
-      city: "",
-      email: "",
-      giturl: "",
-      photo: "",
-      password: "",
-    });
+    setState(form);
   };
 
   return (
@@ -54,6 +54,7 @@ function Form() {
           onChange={handleUpdate}
           placeholder="Enter Name"
         />
+
         <p>Country : </p>
         <select
           name="country"
@@ -70,6 +71,7 @@ function Form() {
           <option value="United Kingdom">United Kingdom</option>
           <option value="United States">United States</option>
         </select>
+
         <p>State : </p>
         <select
           name="state"
@@ -103,6 +105,7 @@ function Form() {
           <option value="Ratlam">Ratlam</option>
           <option value="Ujjain">Ujjain</option>
         </select>
+
         <p>Email : </p>
         <input
           type="text"
@@ -111,6 +114,7 @@ function Form() {
           onChange={handleUpdate}
           placeholder="Enter Email"
         />
+
         <p>GitHub Url : </p>
         <input
           type="text"
@@ -119,14 +123,16 @@ function Form() {
           onChange={handleUpdate}
           placeholder="Enter GitHub Url"
         />
+
         <p>Photo : </p>
         <input
           type="file"
           name="photo"
-          value={form.photo}
-          onChange={handleUpdate}
+          onChange={handleImg}
           placeholder="Enter Photo"
+          accept="image/gif, image/jpeg, image/png"
         />
+
         <p>Password : </p>
         <input
           type="password"
@@ -137,6 +143,7 @@ function Form() {
         />
       </div>
       <button onClick={handleOnclick}>Submit</button>
+      <FormShow input={state} />
     </div>
   );
 }
