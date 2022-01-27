@@ -10,12 +10,14 @@ import FormShow from "./FormShow";
  * 4. using onchange set the state
  * 5. log the state on button click
  * 6. onclicking submit button data will pass through props
- * 7. on Form Show data will show as fields name and input
+ * 7. on Button click Show data will show as fields name and input
  * 8. End
  *
  */
 
 function Form() {
+  const [showComponent, setShowComponent] = useState<any>(false);
+  const [state, setState] = useState({});
   const [form, setForm] = useState({
     name: "",
     country: "",
@@ -26,10 +28,6 @@ function Form() {
     photo: "",
     password: "",
   });
-
-  const [showComponent, setShowComponent] = useState<any>(false);
-
-  const [state, setState] = useState(form);
 
   const handleUpdate = (e: any) => {
     const { name, value, files } = e.target;
