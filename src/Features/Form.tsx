@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { render } from "react-dom";
 import FormShow from "./FormShow";
+import Modal from "./Modal";
 
 /**
  * Algorithm
@@ -17,6 +18,7 @@ import FormShow from "./FormShow";
 
 function Form() {
   const [showComponent, setShowComponent] = useState<any>(false);
+  const [error, setError] = useState("");
   const [state, setState] = useState({});
   const [form, setForm] = useState({
     name: "",
@@ -27,7 +29,9 @@ function Form() {
     giturl: "",
     photo: "",
     password: "",
+    confirmPassword: "",
   });
+  const [show, setShow] = useState(false);
 
   const handleUpdate = (e: any) => {
     const { name, value, files } = e.target;
@@ -41,6 +45,55 @@ function Form() {
   };
 
   const handleOnclick = () => {
+    const {
+      name,
+      country,
+      state,
+      city,
+      email,
+      giturl,
+      photo,
+      password,
+      confirmPassword,
+    } = form;
+    if (
+      name === "" ||
+      country === "" ||
+      state === "" ||
+      city === "" ||
+      email === "" ||
+      giturl === "" ||
+      photo === "" ||
+      password === "" ||
+      confirmPassword === ""
+    ) {
+      setShow(true);
+      return setError("Field should not be empty");
+    }
+    if (name) {
+      setForm({ ...form, name: name.replace(/\s+/g, " ").trim() });
+    }
+    if (
+      email.match(
+        /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
+      ) == null
+    ) {
+      setShow(true);
+      return setError("Email is not proper");
+    }
+    if (
+      password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm) ==
+      null
+    ) {
+      setShow(true);
+      return setError(
+        "Password should contain atleast one character capital, one symbol and number"
+      );
+    }
+    if (password !== confirmPassword) {
+      setShow(true);
+      return setError("Password didn't match");
+    }
     setState(form);
     setShowComponent(true);
   };
@@ -56,11 +109,19 @@ function Form() {
       giturl: "",
       photo: "",
       password: "",
+      confirmPassword: "",
     });
   };
 
   return (
     <div>
+      <Modal
+        onClose={() => {
+          setShow(false);
+        }}
+        show={show}
+        error={error}
+      />
       <div>
         <p>Name : </p>
         <input
@@ -157,10 +218,19 @@ function Form() {
           onChange={handleUpdate}
           placeholder="Enter Password"
         />
+        <p>Confirm Password : </p>
+        <input
+          type="password"
+          name="confirmPassword"
+          value={form.confirmPassword}
+          onChange={handleUpdate}
+          placeholder="Confirm Password"
+        />
       </div>
       <button onClick={handleOnclick}>Submit</button>
       <button onClick={handleClear}>Clear</button>
       {showComponent ? <FormShow input={state} /> : null}
+      {/* <div className={error ? "errorModal" : "errorModals"}>{error}</div> */}
     </div>
   );
 }
