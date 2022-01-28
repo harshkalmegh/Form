@@ -56,22 +56,32 @@ function Form() {
       password,
       confirmPassword,
     } = form;
-    if (
-      name === "" ||
-      country === "" ||
-      state === "" ||
-      city === "" ||
-      email === "" ||
-      giturl === "" ||
-      photo === "" ||
-      password === "" ||
-      confirmPassword === ""
-    ) {
+    if (name === "") {
       setShow(true);
-      return setError("Field should not be empty");
+      return setError("Name field should not be empty");
+    }
+    if (name.match(/^[a-zA-Z]+$/) == null) {
+      setShow(true);
+      return setError("Name is not proper");
     }
     if (name) {
       setForm({ ...form, name: name.replace(/\s+/g, " ").trim() });
+    }
+    if (country === "") {
+      setShow(true);
+      return setError("Country field should not be empty");
+    }
+    if (state === "") {
+      setShow(true);
+      return setError("State field should not be empty");
+    }
+    if (city === "") {
+      setShow(true);
+      return setError("City field should not be empty");
+    }
+    if (email === "") {
+      setShow(true);
+      return setError("email field should not be empty");
     }
     if (
       email.match(
@@ -80,6 +90,26 @@ function Form() {
     ) {
       setShow(true);
       return setError("Email is not proper");
+    }
+    if (giturl === "") {
+      setShow(true);
+      return setError("GitHub Url field should not be empty");
+    }
+    if (
+      giturl.match(
+        /^(http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm
+      ) == null
+    ) {
+      setShow(true);
+      return setError("GitHub Url is not in proper form");
+    }
+    if (photo === "") {
+      setShow(true);
+      return setError("Photo field should not be empty");
+    }
+    if (password === "") {
+      setShow(true);
+      return setError("Password field should not be empty");
     }
     if (
       password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm) ==
