@@ -20,6 +20,7 @@ function Form() {
   const [showComponent, setShowComponent] = useState<any>(false);
   const [error, setError] = useState("");
   const [state, setState] = useState({});
+  const [img, setImg] = useState([]);
   const [form, setForm] = useState<any>({
     name: "",
     country: "",
@@ -59,10 +60,13 @@ function Form() {
 
   // Version 3
   const handleImg = (e: any) => {
-    const { photo } = form;
+    const { photo, img } = form;
     const { name, files } = e.target;
-    photo.push(URL.createObjectURL(files[0]));
-    setForm({ ...form, [name]: photo });
+    const arr = [];
+    arr.push(files);
+    // photo.push(URL.createObjectURL(files[0]));
+    // setForm({ ...form, [name]: photo });
+    console.log(arr);
   };
 
   const handleOnclick = () => {
