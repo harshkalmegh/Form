@@ -39,15 +39,30 @@ function Form() {
     setForm({ ...form, [name]: value });
   };
 
+  // Version 1
+  // const handleImg = (e: any) => {
+  //   const { photo } = form;
+  //   const { name, files } = e.target;
+  //   for (let i = 0, numFiles = files.length; i < numFiles; i++) {
+  //     photo.push(URL.createObjectURL(files[i]));
+  //   }
+  //   setForm({ ...form, [name]: photo });
+  // };
+
+  // Version 2
+  // const handleImg = (e: any) => {
+  //   const { photo } = form;
+  //   const { name, files } = e.target;
+  //   photo.push(URL.createObjectURL(files[0]));
+  //   setForm({ ...form, [name]: photo });
+  // };
+
+  // Version 3
   const handleImg = (e: any) => {
     const { photo } = form;
     const { name, files } = e.target;
-
-    for (let i = 0, numFiles = files.length; i < numFiles; i++) {
-      photo.push(URL.createObjectURL(files[i]));
-    }
+    photo.push(URL.createObjectURL(files[0]));
     setForm({ ...form, [name]: photo });
-    console.log(form);
   };
 
   const handleOnclick = () => {
@@ -65,28 +80,28 @@ function Form() {
     if (name) {
       setForm({ ...form, name: name.replace(/\s+/g, " ").trim() });
     }
-    if (name === "") {
+    if (!name) {
       setShow(true);
       return setError("Name field should not be empty");
     }
-    if (name.match(/^[a-zA-Z]+$/) == null) {
-      setShow(true);
-      return setError("Name is not proper");
-    }
+    // if (name.match(/^[a-zA-Z]+$/) == null) {
+    //   setShow(true);
+    //   return setError("Name is not proper");
+    // }
 
-    if (country === "") {
+    if (!country) {
       setShow(true);
       return setError("Country field should not be empty");
     }
-    if (state === "") {
+    if (!state) {
       setShow(true);
       return setError("State field should not be empty");
     }
-    if (city === "") {
+    if (!city) {
       setShow(true);
       return setError("City field should not be empty");
     }
-    if (email === "") {
+    if (!email) {
       setShow(true);
       return setError("email field should not be empty");
     }
@@ -98,7 +113,7 @@ function Form() {
       setShow(true);
       return setError("Email is not proper");
     }
-    if (giturl === "") {
+    if (!giturl) {
       setShow(true);
       return setError("GitHub Url field should not be empty");
     }
@@ -110,11 +125,11 @@ function Form() {
       setShow(true);
       return setError("GitHub Url is not in proper form");
     }
-    if (photo === "") {
+    if (!photo) {
       setShow(true);
       return setError("Photo field should not be empty");
     }
-    if (password === "") {
+    if (!password) {
       setShow(true);
       return setError("Password field should not be empty");
     }
@@ -248,6 +263,22 @@ function Form() {
           accept="image/gif, image/jpeg, image/png"
           multiple
         />
+        {form.photo &&
+          form.photo.map((val: any, key: any) => {
+            return (
+              <div key={key}>
+                <img src={val} alt="image" style={{ width: "150px" }} />
+                <button
+                  onClick={() => {
+                    form.photo.splice(key, 1);
+                    setForm({ ...form, photo: form.photo || [] });
+                  }}
+                >
+                  clear
+                </button>
+              </div>
+            );
+          })}
 
         <p>Password : </p>
         <input
