@@ -20,14 +20,14 @@ function Form() {
   const [showComponent, setShowComponent] = useState<any>(false);
   const [error, setError] = useState("");
   const [state, setState] = useState({});
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<any>({
     name: "",
     country: "",
     state: "",
     city: "",
     email: "",
     giturl: "",
-    photo: "",
+    photo: [],
     password: "",
     confirmPassword: "",
   });
@@ -40,8 +40,14 @@ function Form() {
   };
 
   const handleImg = (e: any) => {
+    const { photo } = form;
     const { name, files } = e.target;
-    setForm({ ...form, [name]: URL.createObjectURL(files[0]) });
+
+    for (let i = 0, numFiles = files.length; i < numFiles; i++) {
+      photo.push(URL.createObjectURL(files[i]));
+    }
+    setForm({ ...form, [name]: photo });
+    console.log(form);
   };
 
   const handleOnclick = () => {
@@ -56,6 +62,9 @@ function Form() {
       password,
       confirmPassword,
     } = form;
+    if (name) {
+      setForm({ ...form, name: name.replace(/\s+/g, " ").trim() });
+    }
     if (name === "") {
       setShow(true);
       return setError("Name field should not be empty");
@@ -64,9 +73,7 @@ function Form() {
       setShow(true);
       return setError("Name is not proper");
     }
-    if (name) {
-      setForm({ ...form, name: name.replace(/\s+/g, " ").trim() });
-    }
+
     if (country === "") {
       setShow(true);
       return setError("Country field should not be empty");
@@ -137,10 +144,11 @@ function Form() {
       city: "",
       email: "",
       giturl: "",
-      photo: "",
+      photo: [],
       password: "",
       confirmPassword: "",
     });
+    setShowComponent(false);
   };
 
   return (
@@ -238,6 +246,7 @@ function Form() {
           onChange={handleImg}
           placeholder="Enter Photo"
           accept="image/gif, image/jpeg, image/png"
+          multiple
         />
 
         <p>Password : </p>

@@ -17,12 +17,16 @@ function FormShow(props: any) {
       {props.input.city ? <p>City : {props.input.city}</p> : null}
       {props.input.email ? <p>Email : {props.input.email}</p> : null}
       {props.input.giturl ? <p>GitHub Url : {props.input.giturl}</p> : null}
-      {props.input.photo ? (
-        <p>
-          Photo :
-          <img src={props.input.photo} alt="photo" style={{ width: "200px" }} />
-        </p>
-      ) : null}
+      {props.input.photo.map((val: any, key: any) => {
+        return (
+          <div key={key}>
+            <p>
+              Photo :
+              <img src={val} alt="photo" style={{ width: "200px" }} />
+            </p>
+          </div>
+        );
+      })}
     </div>
   );
 }
